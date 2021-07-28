@@ -41,6 +41,15 @@ final class TestCaseFactory
     public $only = false;
 
     /**
+     * The number of times this test will be run.
+     *
+     * @readonly
+     *
+     * @var int
+     */
+    public $repeatCount = 1;
+
+    /**
      * Holds the test description.
      *
      * If the description is null, means that it
@@ -152,17 +161,27 @@ final class TestCaseFactory
         };
 
         $className = $this->makeClassFromFilename($this->filename);
+        $datasets = Datasets::resolve($this->description, $this->datasets);
 
-        $createTest = function ($description, $data) use ($className, $test) {
-            $testCase = new $className($test, $description, $data);
+        $testRunners = [];
+        foreach (range(1, $this->repeatCount) as $iteration) {
+            $testRunners = array_merge(
+                $testRunners,
+                array_map($this->createTestCase($className, $test, $iteration), array_keys($datasets), $datasets)
+            );
+        }
+
+        return $testRunners;
+    }
+
+    private function createTestCase(string $className, Closure $test, int $iteration)
+    {
+        return function ($description, $data) use ($className, $test, $iteration) {
+            $testCase = new $className($test, $description, $data, $this->repeatCount, $iteration);
             $this->factoryProxies->proxy($testCase);
 
             return $testCase;
         };
-
-        $datasets = Datasets::resolve($this->description, $this->datasets);
-
-        return array_map($createTest, array_keys($datasets), $datasets);
     }
 
     /**
