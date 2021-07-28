@@ -169,7 +169,7 @@ final class TestCall
 
     public function repeat(int $times): TestCall
     {
-        $this->repeatCount = $times;
+        $this->testCaseFactory->repeat($times);
 
         return $this;
     }

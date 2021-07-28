@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pest\Concerns;
 
 use Closure;
+use NunoMaduro\Collision\Adapters\Phpunit\Iteration;
 use Pest\Support\ChainableClosure;
 use Pest\Support\ExceptionTrace;
 use Pest\TestSuite;
@@ -33,6 +34,20 @@ trait Testable
      * @var Closure
      */
     private $__test;
+
+    /**
+     * The number of times this test is to be repeated.
+     *
+     * @var int|null
+     */
+    private $__totalIterations = null;
+
+    /**
+     * The iteration when using repeated tests, or null otherwise.
+     *
+     * @var int|null
+     */
+    private $__iteration = null;
 
     /**
      * Holds a global/shared beforeEach ("set up") closure if one has been
@@ -69,12 +84,14 @@ trait Testable
     /**
      * Creates a new instance of the test case.
      */
-    public function __construct(Closure $test, string $description, array $data)
+    public function __construct(Closure $test, string $description, array $data, int $totalIterations = null, int $iteration = null)
     {
-        $this->__test        = $test;
-        $this->__description = $description;
-        self::$beforeAll     = null;
-        self::$afterAll      = null;
+        $this->__test            = $test;
+        $this->__description     = $description;
+        $this->__totalIterations = $totalIterations;
+        $this->__iteration       = $iteration;
+        self::$beforeAll         = null;
+        self::$afterAll          = null;
 
         parent::__construct('__test', $data);
     }
@@ -291,5 +308,10 @@ trait Testable
     public function getPrintableTestCaseName(): string
     {
         return ltrim(self::class, 'P\\');
+    }
+
+    public function getIteration(): Iteration
+    {
+        return new Iteration($this->__iteration, $this->__totalIterations);
     }
 }

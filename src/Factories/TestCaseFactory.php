@@ -7,6 +7,7 @@ namespace Pest\Factories;
 use Closure;
 use ParseError;
 use Pest\Concerns;
+use Pest\Contracts\HasIterations;
 use Pest\Contracts\HasPrintableTestCaseName;
 use Pest\Datasets;
 use Pest\Exceptions\ShouldNotHappen;
@@ -45,9 +46,9 @@ final class TestCaseFactory
      *
      * @readonly
      *
-     * @var int
+     * @var int|null
      */
-    public $repeatCount = 1;
+    public $repeatCount = null;
 
     /**
      * Holds the test description.
@@ -135,6 +136,16 @@ final class TestCaseFactory
     }
 
     /**
+     * Indicate that a test should be repeated more than once.
+     */
+    public function repeat(int $times): TestCaseFactory
+    {
+        $this->repeatCount = $times;
+
+        return $this;
+    }
+
+    /**
      * Builds the anonymous test case.
      *
      * @return array<int, TestCase>
@@ -161,10 +172,10 @@ final class TestCaseFactory
         };
 
         $className = $this->makeClassFromFilename($this->filename);
-        $datasets = Datasets::resolve($this->description, $this->datasets);
+        $datasets  = Datasets::resolve($this->description, $this->datasets);
 
         $testRunners = [];
-        foreach (range(1, $this->repeatCount) as $iteration) {
+        foreach (range(1, $this->repeatCount ?? 1) as $iteration) {
             $testRunners = array_merge(
                 $testRunners,
                 array_map($this->createTestCase($className, $test, $iteration), array_keys($datasets), $datasets)
@@ -174,7 +185,7 @@ final class TestCaseFactory
         return $testRunners;
     }
 
-    private function createTestCase(string $className, Closure $test, int $iteration)
+    private function createTestCase(string $className, Closure $test, int $iteration = null): Closure
     {
         return function ($description, $data) use ($className, $test, $iteration) {
             $testCase = new $className($test, $description, $data, $this->repeatCount, $iteration);
@@ -217,6 +228,7 @@ final class TestCaseFactory
         }
 
         $hasPrintableTestCaseClassFQN = sprintf('\%s', HasPrintableTestCaseName::class);
+        $hasIterationClassFQN         = sprintf('\%s', HasIterations::class);
         $traitsCode                   = sprintf('use %s;', implode(', ', array_map(function ($trait): string {
             return sprintf('\%s', $trait);
         }, $this->traits)));
@@ -235,7 +247,7 @@ final class TestCaseFactory
             eval("
                 namespace $namespace;
 
-                final class $className extends $baseClass implements $hasPrintableTestCaseClassFQN {
+                final class $className extends $baseClass implements $hasPrintableTestCaseClassFQN, $hasIterationClassFQN {
                     $traitsCode
 
                     private static \$__filename = '$filename';
