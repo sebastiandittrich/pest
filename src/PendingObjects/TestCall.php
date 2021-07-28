@@ -47,6 +47,15 @@ final class TestCall
     private $descriptionLess = false;
 
     /**
+     * The number of times this test should be repeated.
+     *
+     * @readonly
+     *
+     * @var int
+     */
+    private $repeatCount = 1;
+
+    /**
      * Creates a new instance of a pending test call.
      */
     public function __construct(TestSuite $testSuite, string $filename, string $description = null, Closure $closure = null)
@@ -154,6 +163,13 @@ final class TestCall
         $this->testCaseFactory
             ->chains
             ->addWhen($condition, Backtrace::file(), Backtrace::line(), 'markTestSkipped', [$message]);
+
+        return $this;
+    }
+
+    public function repeat(int $times): TestCall
+    {
+        $this->repeatCount = $times;
 
         return $this;
     }
