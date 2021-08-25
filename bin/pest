@@ -1,7 +1,11 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+use NunoMaduro\Collision\ConsoleColor;
+use NunoMaduro\Collision\Handler;
+use NunoMaduro\Collision\Highlighter;
 use NunoMaduro\Collision\Provider;
+use NunoMaduro\Collision\Writer;
 use Pest\Actions\ValidatesEnvironment;
 use Pest\Support\Container;
 use Pest\TestSuite;
@@ -25,7 +29,10 @@ use Symfony\Component\Console\Output\OutputInterface;
         $autoloadPath = $localPath;
     }
 
-    (new Provider())->register();
+    $consoleColor = new ConsoleColor();
+    $consoleColor->setForceStyle(true);
+    $collisionHandler = new Handler(new Writer(null, null, null, new Highlighter($consoleColor)));
+    (new Provider(null, $collisionHandler))->register();
 
     // Get $rootPath based on $autoloadPath
     $rootPath = dirname($autoloadPath, 2);
