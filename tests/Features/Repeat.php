@@ -2,10 +2,6 @@
 
 $GLOBALS['lastIteration'] = 0;
 
-beforeEach(function () {
-    $this->internalCount = 0;
-});
-
 afterAll(function() {
     expect($GLOBALS['lastIteration'])->toBe(10);
     $GLOBALS['lastIteration'] = 0;
