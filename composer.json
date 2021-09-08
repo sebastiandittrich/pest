@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": "^7.3 || ^8.0",
-        "nunomaduro/collision": "^5.4.0|^6.0",
+        "nunomaduro/collision": "^5.4.0|^6.0|dev-repeat-support",
         "pestphp/pest-plugin": "^1.0.0",
         "phpunit/phpunit": "^9.5.5"
     },
@@ -87,5 +87,11 @@
                 "Pest\\Laravel\\PestServiceProvider"
             ]
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../collision"
+        }
+    ]
 }

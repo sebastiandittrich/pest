@@ -1,18 +1,19 @@
 <?php
 
-$GLOBALS['lastCount'] = 0;
-$GLOBALS['count']     = 0;
+$GLOBALS['lastIteration'] = 0;
 
 beforeEach(function () {
     $this->internalCount = 0;
 });
 
+afterAll(function() {
+    expect($GLOBALS['lastIteration'])->toBe(10);
+    $GLOBALS['lastIteration'] = 0;
+});
+
 it('can repeat a test a set number of times', function () {
-    $GLOBALS['count']++;
-    expect($this->internalCount)->toBe(0);
-    $this->internalCount++;
-    expect($GLOBALS['lastCount'])->toBe($GLOBALS['count'] - 1);
-    $GLOBALS['lastCount']++;
+    $GLOBALS['lastIteration']++;
+    expect($this->getIteration()->iteration)->toBe($GLOBALS['lastIteration']);
 })->repeat(10);
 
 it('works in higher order tests')
