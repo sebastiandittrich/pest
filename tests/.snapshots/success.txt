@@ -96,6 +96,11 @@
   ✓ more than two datasets with (2) / (4) / (5)
   ✓ more than two datasets with (2) / (4) / (6)
   ✓ more than two datasets did the job right
+  ✓ it can resolve a dataset after the test case is available with (Closure Object (...))
+  ✓ it can resolve a dataset after the test case is available with shared yield sets with (Closure Object (...)) #1
+  ✓ it can resolve a dataset after the test case is available with shared yield sets with (Closure Object (...)) #2
+  ✓ it can resolve a dataset after the test case is available with shared array sets with (Closure Object (...)) #1
+  ✓ it can resolve a dataset after the test case is available with shared array sets with (Closure Object (...)) #2
 
    PASS  Tests\Features\Exceptions
   ✓ it gives access the the underlying expectException
@@ -200,6 +205,20 @@
 
    PASS  Tests\Features\Expect\toBeFalse
   ✓ strict comparisons
+  ✓ failures
+  ✓ not failures
+
+   PASS  Tests\Features\Expect\toBeFalsy
+  ✓ passes as falsy with (false)
+  ✓ passes as falsy with ('')
+  ✓ passes as falsy with (null)
+  ✓ passes as falsy with (0)
+  ✓ passes as falsy with ('0')
+  ✓ passes as not falsy with (true)
+  ✓ passes as not falsy with (1) #1
+  ✓ passes as not falsy with ('false')
+  ✓ passes as not falsy with (1) #2
+  ✓ passes as not falsy with (-1)
   ✓ failures
   ✓ not failures
 
@@ -313,6 +332,20 @@
   ✓ failures
   ✓ not failures
 
+   PASS  Tests\Features\Expect\toBeTruthy
+  ✓ passes as truthy with (true)
+  ✓ passes as truthy with (1) #1
+  ✓ passes as truthy with ('false')
+  ✓ passes as truthy with (1) #2
+  ✓ passes as truthy with (-1)
+  ✓ passes as not truthy with (false)
+  ✓ passes as not truthy with ('')
+  ✓ passes as not truthy with (null)
+  ✓ passes as not truthy with (0)
+  ✓ passes as not truthy with ('0')
+  ✓ failures
+  ✓ not failures
+
    PASS  Tests\Features\Expect\toBeWritableDirectory
   ✓ pass
   ✓ failures
@@ -325,9 +358,16 @@
 
    PASS  Tests\Features\Expect\toContain
   ✓ passes strings
+  ✓ passes strings with multiple needles
   ✓ passes arrays
+  ✓ passes arrays with multiple needles
+  ✓ passes with array needles
   ✓ failures
+  ✓ failures with multiple needles (all failing)
+  ✓ failures with multiple needles (some failing)
   ✓ not failures
+  ✓ not failures with multiple needles (all failing)
+  ✓ not failures with multiple needles (some failing)
 
    PASS  Tests\Features\Expect\toEndWith
   ✓ pass
@@ -379,6 +419,25 @@
   ✓ failures
   ✓ not failures
 
+   PASS  Tests\Features\Expect\toHaveLength
+  ✓ it passes with ('Fortaleza')
+  ✓ it passes with ('Sollefteå')
+  ✓ it passes with ('Ιεράπετρα')
+  ✓ it passes with (stdClass Object (...))
+  ✓ it passes with (Illuminate\Support\Collection Object (...))
+  ✓ it passes with array
+  ✓ it passes with *not*
+  ✓ it properly fails with *not*
+  ✓ it fails with (1)
+  ✓ it fails with (1.5)
+  ✓ it fails with (true)
+  ✓ it fails with (null)
+
+   PASS  Tests\Features\Expect\toHaveProperties
+  ✓ pass
+  ✓ failures
+  ✓ not failures
+
    PASS  Tests\Features\Expect\toHaveProperty
   ✓ pass
   ✓ failures
@@ -408,6 +467,19 @@
   ✓ pass
   ✓ failures
   ✓ not failures
+
+   PASS  Tests\Features\Expect\toThrow
+  ✓ passes
+  ✓ failures 1
+  ✓ failures 2
+  ✓ failures 3
+  ✓ failures 4
+  ✓ failures 5
+  ✓ failures 6
+  ✓ failures 7
+  ✓ not failures
+  ✓ closure missing parameter
+  ✓ closure missing type-hint
 
    PASS  Tests\Features\Helpers
   ✓ it can set/get properties on $this
@@ -449,40 +521,6 @@
   ✓ get 'foo'
   ✓ get 'foo' → get 'bar' → expect true → toBeTrue 
   ✓ get 'foo' → expect true → toBeTrue 
-
-   PASS  Tests\Features\Repeat
-  ✓ it can repeat a test a set number of times ⟲ 1 of 10
-  ✓ it can repeat a test a set number of times ⟲ 2 of 10
-  ✓ it can repeat a test a set number of times ⟲ 3 of 10
-  ✓ it can repeat a test a set number of times ⟲ 4 of 10
-  ✓ it can repeat a test a set number of times ⟲ 5 of 10
-  ✓ it can repeat a test a set number of times ⟲ 6 of 10
-  ✓ it can repeat a test a set number of times ⟲ 7 of 10
-  ✓ it can repeat a test a set number of times ⟲ 8 of 10
-  ✓ it can repeat a test a set number of times ⟲ 9 of 10
-  ✓ it can repeat a test a set number of times ⟲ 10 of 10
-  ✓ it works in higher order tests ⟲ 1 of 2
-  ✓ it works in higher order tests ⟲ 2 of 2
-  ✓ it works with dataproviders with ('foo') ⟲ 1 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 1 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 2 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 2 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 3 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 3 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 4 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 4 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 5 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 5 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 6 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 6 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 7 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 7 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 8 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 8 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 9 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 9 of 10
-  ✓ it works with dataproviders with ('foo') ⟲ 10 of 10
-  ✓ it works with dataproviders with ('bar') ⟲ 10 of 10
 
    WARN  Tests\Features\Skip
   ✓ it do not skips
@@ -608,9 +646,14 @@
    PASS  Tests\Unit\TestSuite
   ✓ it does not allow to add the same test description twice
   ✓ it alerts users about tests with arguments but no input
+  ✓ it can return an array of all test suite filenames
+  ✓ it can filter the test suite filenames to those with the only method
 
    PASS  Tests\Visual\Help
   ✓ visual snapshot of help command output
+
+   PASS  Tests\Visual\JUnit
+  ✓ it is can successfully call all public methods
 
    PASS  Tests\Visual\SingleTestOrDirectory
   ✓ allows to run a single test
@@ -620,6 +663,9 @@
 
    WARN  Tests\Visual\Success
   - visual snapshot of test suite on success
+
+   PASS  Tests\Visual\TeamCity
+  ✓ it is can successfully call all public methods
 
    PASS  Tests\Features\Depends
   ✓ first
@@ -635,5 +681,5 @@
   ✓ it is a test
   ✓ it uses correct parent class
 
-  Tests:  4 incompleted, 9 skipped, 413 passed
+  Tests:  4 incompleted, 9 skipped, 447 passed
   
