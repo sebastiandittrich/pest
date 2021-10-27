@@ -6,6 +6,7 @@ namespace Pest\Concerns;
 
 use Closure;
 use NunoMaduro\Collision\Adapters\Phpunit\Iteration;
+use Pest\Exceptions\MissingDependency;
 use Pest\Support\ChainableClosure;
 use Pest\Support\ExceptionTrace;
 use Pest\TestSuite;
@@ -322,8 +323,16 @@ trait Testable
         return ltrim(self::class, 'P\\');
     }
 
-    public function getIteration(): Iteration
+    public function getIteration(): ?Iteration
     {
+        if (! class_exists(Iteration::class)) {
+            throw new MissingDependency('repeat', 'nunomaduro/collision:^5.11');
+        }
+
+        if (!$this->__iteration || !$this->__totalIterations) {
+            return null;
+        }
+
         return new Iteration($this->__iteration, $this->__totalIterations);
     }
 }

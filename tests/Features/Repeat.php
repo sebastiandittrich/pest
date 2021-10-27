@@ -2,7 +2,7 @@
 
 $GLOBALS['lastIteration'] = 0;
 
-afterAll(function() {
+afterAll(function () {
     expect($GLOBALS['lastIteration'])->toBe(10);
     $GLOBALS['lastIteration'] = 0;
 });

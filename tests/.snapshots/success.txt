@@ -556,6 +556,40 @@
   ✓ get 'foo' → get 'bar' → expect true → toBeTrue 
   ✓ get 'foo' → expect true → toBeTrue 
 
+   PASS  Tests\Features\Repeat
+  ✓ it can repeat a test a set number of times ⟲ 1 of 10
+  ✓ it can repeat a test a set number of times ⟲ 2 of 10
+  ✓ it can repeat a test a set number of times ⟲ 3 of 10
+  ✓ it can repeat a test a set number of times ⟲ 4 of 10
+  ✓ it can repeat a test a set number of times ⟲ 5 of 10
+  ✓ it can repeat a test a set number of times ⟲ 6 of 10
+  ✓ it can repeat a test a set number of times ⟲ 7 of 10
+  ✓ it can repeat a test a set number of times ⟲ 8 of 10
+  ✓ it can repeat a test a set number of times ⟲ 9 of 10
+  ✓ it can repeat a test a set number of times ⟲ 10 of 10
+  ✓ it works in higher order tests ⟲ 1 of 2
+  ✓ it works in higher order tests ⟲ 2 of 2
+  ✓ it works with dataproviders with ('foo') ⟲ 1 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 1 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 2 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 2 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 3 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 3 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 4 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 4 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 5 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 5 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 6 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 6 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 7 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 7 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 8 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 8 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 9 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 9 of 10
+  ✓ it works with dataproviders with ('foo') ⟲ 10 of 10
+  ✓ it works with dataproviders with ('bar') ⟲ 10 of 10
+
    WARN  Tests\Features\Skip
   ✓ it do not skips
   - it skips with truthy
@@ -720,5 +754,5 @@
   ✓ it is a test
   ✓ it uses correct parent class
 
-  Tests:  4 incompleted, 9 skipped, 478 passed
+  Tests:  4 incompleted, 9 skipped, 510 passed
   
