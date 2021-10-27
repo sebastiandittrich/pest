@@ -325,7 +325,7 @@ trait Testable
 
     public function getIteration(): ?Iteration
     {
-        if (! class_exists(Iteration::class)) {
+        if (!class_exists(Iteration::class)) {
             throw new MissingDependency('repeat', 'nunomaduro/collision:^5.11');
         }
 

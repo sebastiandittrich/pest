@@ -7,11 +7,11 @@ namespace Pest\Logging;
 use function getmypid;
 use Pest\Concerns\Logging\WritesToConsole;
 use Pest\Concerns\Testable;
+use Pest\Logging\TeamCity\PestAwareTest;
 use Pest\Support\ExceptionTrace;
 use function Pest\version;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Test;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
@@ -189,6 +189,8 @@ final class TeamCity extends DefaultResultPrinter
             return;
         }
 
+        $test = $this->makeTestPestAware($test);
+
         $this->printEvent(self::TEST_STARTED, [
             self::NAME => $test->getName(),
             // @phpstan-ignore-next-line
@@ -229,6 +231,14 @@ final class TeamCity extends DefaultResultPrinter
      */
     public function endTest(Test $test, float $time): void
     {
+        if (!TeamCity::isPestTest($test)) {
+            $this->phpunitTeamCity->endTest($test, $time);
+
+            return;
+        }
+
+        $test = $this->makeTestPestAware($test);
+
         $this->printEvent(self::TEST_FINISHED, [
             self::NAME     => $test->getName(),
             self::DURATION => self::toMilliseconds($time),
@@ -238,7 +248,7 @@ final class TeamCity extends DefaultResultPrinter
             $this->writeSuccess($test->getName());
         }
 
-        $this->numAssertions += $test instanceof TestCase ? $test->getNumAssertions() : 1;
+        $this->numAssertions++;
         $this->lastTestFailed = false;
     }
 
@@ -249,6 +259,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addError(Test $test, Throwable $t, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($t);
         $this->writeError($test->getName());
         $this->phpunitTeamCity->addError($test, $t, $time);
@@ -256,6 +268,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($e);
         $this->writeError($test->getName());
         $this->phpunitTeamCity->addFailure($test, $e, $time);
@@ -263,6 +277,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addWarning(Test $test, Warning $e, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($e);
         $this->writeWarning($test->getName());
         $this->phpunitTeamCity->addWarning($test, $e, $time);
@@ -270,6 +286,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addIncompleteTest(Test $test, Throwable $t, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($t);
         $this->writeWarning($test->getName());
         $this->phpunitTeamCity->addIncompleteTest($test, $t, $time);
@@ -277,6 +295,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addRiskyTest(Test $test, Throwable $t, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($t);
         $this->writeWarning($test->getName());
         $this->phpunitTeamCity->addRiskyTest($test, $t, $time);
@@ -284,6 +304,8 @@ final class TeamCity extends DefaultResultPrinter
 
     public function addSkippedTest(Test $test, Throwable $t, float $time): void
     {
+        $test = $this->makeTestPestAware($test);
+
         $this->markAsFailure($t);
         $this->writeWarning($test->getName());
         $this->phpunitTeamCity->printIgnoredTest($test->getName(), $t, $time);
@@ -293,5 +315,10 @@ final class TeamCity extends DefaultResultPrinter
     {
         $this->lastTestFailed = true;
         ExceptionTrace::removePestReferences($t);
+    }
+
+    private function makeTestPestAware(Test $test): PestAwareTest
+    {
+        return new PestAwareTest($test);
     }
 }
