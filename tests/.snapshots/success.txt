@@ -412,6 +412,11 @@
   ✓ it can forward unexpected calls to any global function
   ✓ it can use helpers from helpers file
 
+   PASS  Tests\Features\HigherOrderCallables
+  ✓ it treats higher order callables as callables
+  ✓ it can pass datasets to higher order callables with (1, 2, 3)
+  ✓ it does not treat all invokable classes as callables
+
    PASS  Tests\Features\HigherOrderTests
   ✓ it proxies calls to object
   ✓ it is capable doing multiple assertions
@@ -595,5 +600,5 @@
   ✓ it is a test
   ✓ it uses correct parent class
 
-  Tests:  4 incompleted, 9 skipped, 377 passed
+  Tests:  4 incompleted, 9 skipped, 380 passed
   
